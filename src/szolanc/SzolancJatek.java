@@ -1,6 +1,7 @@
 package szolanc;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,7 +11,11 @@ public class SzolancJatek {
         new Thread() {
             @Override
             public void run() {
-                new Server();
+                try {
+                    new Server();
+                } catch (NotBoundException ex) {
+                    System.out.println("Hiba a szerver inditasnal");
+                }
             }
         }.start();
 
