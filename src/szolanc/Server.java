@@ -49,6 +49,7 @@ public class Server {
                 numb++;
             } catch (IOException e) {
                 System.out.println("SERVER>> Hiba kliensekkel");
+                break; //nemtudom h jo e itt
             }
         }
     }
