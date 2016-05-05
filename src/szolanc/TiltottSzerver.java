@@ -36,11 +36,11 @@ public class TiltottSzerver extends UnicastRemoteObject implements TiltottSzerve
         }
         return list;
     }
-    
+
     @Override
     public boolean tiltottE(String szo) throws RemoteException {
         boolean contains = forbiddenWords.contains(szo);
-        if(!contains) {
+        if (!contains) {
             forbiddenWords.add(szo);
         }
         return contains;    // if true -> nok, else ok

@@ -60,12 +60,10 @@ public class InteractiveClient {
                 break;
 
             case "nok":
-                System.out.print("Gepelj szot: ");
+                System.out.println("A " + lastGotWord + " szo tiltott listan van!");
+                System.out.print("Gepelj uj szot: ");
                 toBeSent = keyInput.nextLine();
                 msg = lastGotWord;
-                
-                //System.out.println("NOKeleje msg: " + msg);
-               // System.out.println("NOKeleje lastGotWord: " + lastGotWord);
 
                 while (!toBeSent.matches("[a-z]+")) {
                     System.out.print("Gepelj helyes szot: ");
@@ -86,9 +84,7 @@ public class InteractiveClient {
                 }
 
                 if (!"nok".equals(msg)) {
-                   // System.out.println("NOKvege: msg: " + msg);
                     lastGotWord = msg;
-                    //System.out.println("NOKvege:lastGotWord: " + lastGotWord);
                 }
                 output.println(toBeSent);
 
@@ -102,10 +98,7 @@ public class InteractiveClient {
             default:
                 System.out.print("Gepelj szot: ");
                 toBeSent = keyInput.nextLine();
-                
-                //System.out.println("DEFAULTeleje msg: " + msg);
-                //System.out.println("NOKeleje lastGotWord: " + lastGotWord);
-                
+
                 while (!toBeSent.matches("[a-z]+")) {
                     System.out.print("Gepelj helyes szot: ");
                     toBeSent = keyInput.nextLine();
@@ -123,11 +116,9 @@ public class InteractiveClient {
                         }
                     }
                 }
-                
+
                 if (!"nok".equals(msg)) {
-                  //  System.out.println("DEFAULTvege msg: " + msg);
                     lastGotWord = msg;
-                   // System.out.println("DEFAULTvege lastGotWord: " + lastGotWord);
                 }
                 output.println(toBeSent);
 

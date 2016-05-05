@@ -81,7 +81,7 @@ public class RobotClient {
 
             case "ok":
                 break;
-                
+
             case "nok":
                 toBeSent = "exit";
                 workStatus = false;
@@ -97,15 +97,15 @@ public class RobotClient {
                         break;
                     }
                 }
-                
+
                 if (!"nok".equals(msg)) {
                     lastGotWord = msg;
                 }
-                
+
                 output.println(toBeSent);
                 System.out.println(name + ": " + toBeSent);
                 break;
-                
+
             default:
                 toBeSent = "exit";
                 workStatus = false;
@@ -120,11 +120,11 @@ public class RobotClient {
                         break;
                     }
                 }
-                
+
                 if (!"nok".equals(msg)) {
                     lastGotWord = msg;
                 }
-                
+
                 output.println(toBeSent);
                 System.out.println(name + ": " + toBeSent);
                 break;
