@@ -62,7 +62,7 @@ public class RobotClient {
         boolean workStatus = true;
 
         String msg = fromServer.nextLine();
-        String lastSentWord = "";
+        String lastGotWord = "";
         String toBeSent = "";
         String lastLetter = "";
 
@@ -84,19 +84,23 @@ public class RobotClient {
             case "nok":
                 toBeSent = "exit";
                 workStatus = false;
-                msg = lastSentWord; // ez itt a lenyeg, hogy a legutobbi szohoz viszonyitva keres megint masikat
+                msg = lastGotWord; // ez itt a lenyeg, hogy a legutobbi szohoz viszonyitva keres megint masikat
                 lastLetter = msg.substring(msg.length() - 1);
 
                 for (int i = 0; i < wordList.size(); ++i) {
                     String firstLetter = wordList.get(i).substring(0, 1);
                     if (lastLetter.equals(firstLetter)) {
                         toBeSent = wordList.get(i);
-                        lastSentWord = toBeSent;
                         wordList.remove(i);
                         workStatus = true;
                         break;
                     }
                 }
+                
+                if (!"nok".equals(msg)) {
+                    lastGotWord = msg;
+                }
+                
                 output.println(toBeSent);
                 System.out.println(name + ": " + toBeSent);
                 break;
@@ -110,12 +114,16 @@ public class RobotClient {
                     String firstLetter = wordList.get(i).substring(0, 1);
                     if (lastLetter.equals(firstLetter)) {
                         toBeSent = wordList.get(i);
-                        lastSentWord = toBeSent;
                         wordList.remove(i);
                         workStatus = true;
                         break;
                     }
                 }
+                
+                if (!"nok".equals(msg)) {
+                    lastGotWord = msg;
+                }
+                
                 output.println(toBeSent);
                 System.out.println(name + ": " + toBeSent);
                 break;
