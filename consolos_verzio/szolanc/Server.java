@@ -27,34 +27,34 @@ public class Server {
     }
 
     public void handleClients() throws IOException, NotBoundException {
-
+		
         while (true) {
             try {
                 Socket s1 = server.accept();
-                System.out.println("elso csatlakozott");
+				System.out.println("elso csatlakozott");
                 Socket s2 = server.accept();
-                System.out.println("mind 2 csatlakozott");
+				System.out.println("mind 2 csatlakozott");
                 Registry reg = LocateRegistry.createRegistry(port);
-                System.out.println("regisztert letrehozta");
+				System.out.println("regisztert letrehozta");
                 TiltottSzerverInterface tszi;
-                System.out.println("interfacet megcsinalta");
-
+				System.out.println("interfacet megcsinalta");
+				
                 try {
-                    System.out.println("masik try tszi elott");
+					System.out.println("masik try tszi elott");
                     tszi = (TiltottSzerverInterface) (reg.lookup("tiltott" + numb));
-                    System.out.println("masik try tszi utan");
+					System.out.println("masik try tszi utan");
                 } catch (RemoteException e) {
-                    System.out.println("masik catch tszi elott");
+					System.out.println("masik catch tszi elott");
                     numb = 1;   // ez a resz kicsit fura
                     tszi = (TiltottSzerverInterface) (reg.lookup("tiltott" + numb));
-                    System.out.println("masik catch tszi utan");
+					System.out.println("masik catch tszi utan");
                 }
-                System.out.println("uj handler elott");
+				System.out.println("uj handler elott");
                 new Handler(s1, s2, tszi).start();
-                System.out.println("uj handler utan");
+				System.out.println("uj handler utan");
                 numb++;
             } catch (IOException e) {
-                System.out.println("SERVER>> Hiba kliensekkel");
+				System.out.println("SERVER>> Hiba kliensekkel");
             }
         }
     }
@@ -91,7 +91,7 @@ public class Server {
             this.player1 = s1;
             this.player2 = s2;
             this.tszi = tszi;
-
+            
             input1 = new Scanner(s1.getInputStream());
             input2 = new Scanner(s2.getInputStream());
 
@@ -117,8 +117,8 @@ public class Server {
                 if (isPlayer1) {
                     try {
                         msg = input1.nextLine();//
-
-                        while (tszi.tiltottE(msg)) {
+                        
+                        while(tszi.tiltottE(msg)) {
                             output1.println("nok");
                             msg = input1.nextLine();
                         }
@@ -142,8 +142,8 @@ public class Server {
                 } else {
                     try {
                         msg = input2.nextLine();
-
-                        while (tszi.tiltottE(msg)) {
+                        
+                        while(tszi.tiltottE(msg)) {
                             output2.println("nok");
                             msg = input2.nextLine();
                         }
@@ -183,6 +183,11 @@ public class Server {
     }
 
     public static void main(String[] args) throws IOException, NotBoundException {
-        new Server();
+		System.out.println("ANYAAAAAD");
+		try {
+			new Server();
+		} catch(Exception e) {
+			System.out.println("SERVER>> Meghalt a francba");
+		}
     }
 }
