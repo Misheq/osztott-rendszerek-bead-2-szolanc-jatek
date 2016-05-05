@@ -20,7 +20,7 @@ public class Server {
         try {
             this.server = new ServerSocket(port);
             System.out.println("SERVER>> Szerver elindult a " + port + " port szamon");
-            //server.setSoTimeout(30000);
+            server.setSoTimeout(30000);
             handleClients();
         } catch (IOException e) {
             System.out.println("SERVER>> Szerver szoket szunet, több játékmenetet nem lehet elindítani");

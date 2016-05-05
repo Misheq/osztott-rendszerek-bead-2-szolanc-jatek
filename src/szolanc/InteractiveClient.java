@@ -22,7 +22,7 @@ public class InteractiveClient {
         keyInput = new Scanner(System.in);
         lastGotWord = "";
 
-        System.out.print("Please enter your name: ");
+        System.out.print("Kerem a nevedet: ");
         output.println(keyInput.nextLine());
 
         new Thread() {
@@ -46,7 +46,6 @@ public class InteractiveClient {
     public boolean handleStuff() {
         boolean workStatus = true;
         String toBeSent;
-        //String lastGotWord = "";
 
         String msg = fromServer.nextLine();
         System.out.println("from server: " + msg);
@@ -60,7 +59,7 @@ public class InteractiveClient {
                 break;
 
             case "nok":
-                System.out.println("A " + lastGotWord + " szo tiltott listan van!");
+                System.out.println("Az utobbi szo amit kuldtel tiltott listan van!");
                 System.out.print("Gepelj uj szot: ");
                 toBeSent = keyInput.nextLine();
                 msg = lastGotWord;

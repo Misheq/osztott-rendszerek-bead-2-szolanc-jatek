@@ -2,12 +2,16 @@ package szolanc;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SzolancSzimulacio {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
+        
+        TiltottDeploy.main(new String[]{"2"});
+        
         new Thread() {
             @Override
             public void run() {
