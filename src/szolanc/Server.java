@@ -41,7 +41,7 @@ public class Server {
                 System.out.println("interfacet megcsinalta");
 
                 try {
-                    reg = LocateRegistry.getRegistry("localhost");
+                    reg = LocateRegistry.getRegistry(12345);
                     System.out.println("masik try tszi elott");
                     //tszi = (TiltottSzerverInterface) Naming.lookup("rmi://localhost:12345/tiltott" + numb);
                     tszi = (TiltottSzerverInterface) reg.lookup("tiltott" + numb);
@@ -49,7 +49,7 @@ public class Server {
                 } catch (Exception e) {
                     System.out.println("masik catch tszi elott");
                     numb = 1;   // ez a resz kicsit fura
-                    reg = LocateRegistry.getRegistry("localhost");
+                    reg = LocateRegistry.getRegistry(12345);
                     tszi = (TiltottSzerverInterface) reg.lookup("tiltott" + numb);
                     //tszi = (TiltottSzerverInterface) Naming.lookup("rmi://localhost:12345/tiltott" + numb);
                     System.out.println("masik catch tszi utan");

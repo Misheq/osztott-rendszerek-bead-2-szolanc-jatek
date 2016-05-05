@@ -22,7 +22,7 @@ public class TiltottDeploy {
     }
     
     public static void main(String[] args) throws RemoteException {
-        if(args.length == 1 && Integer.parseInt(args[0]) > 1) {
+        if(args.length == 1 && Integer.parseInt(args[0]) >= 1) {
             try {
                 reg = LocateRegistry.createRegistry(PORT);
             } catch (RemoteException ex) {

@@ -13,12 +13,14 @@ public class InteractiveClient {
     PrintWriter output;
     Scanner fromServer;
     Scanner keyInput;
+    String lastGotWord;
 
     InteractiveClient() throws IOException {
         client = new Socket("localhost", PORT);
         output = new PrintWriter(client.getOutputStream(), true);
         fromServer = new Scanner(client.getInputStream());
         keyInput = new Scanner(System.in);
+        lastGotWord = "";
 
         System.out.print("Please enter your name: ");
         output.println(keyInput.nextLine());
@@ -44,7 +46,7 @@ public class InteractiveClient {
     public boolean handleStuff() {
         boolean workStatus = true;
         String toBeSent;
-        String lastGotWord = "";
+        //String lastGotWord = "";
 
         String msg = fromServer.nextLine();
         System.out.println("from server: " + msg);
@@ -61,6 +63,9 @@ public class InteractiveClient {
                 System.out.print("Gepelj szot: ");
                 toBeSent = keyInput.nextLine();
                 msg = lastGotWord;
+                
+                //System.out.println("NOKeleje msg: " + msg);
+               // System.out.println("NOKeleje lastGotWord: " + lastGotWord);
 
                 while (!toBeSent.matches("[a-z]+")) {
                     System.out.print("Gepelj helyes szot: ");
@@ -81,7 +86,9 @@ public class InteractiveClient {
                 }
 
                 if (!"nok".equals(msg)) {
+                   // System.out.println("NOKvege: msg: " + msg);
                     lastGotWord = msg;
+                    //System.out.println("NOKvege:lastGotWord: " + lastGotWord);
                 }
                 output.println(toBeSent);
 
@@ -95,7 +102,10 @@ public class InteractiveClient {
             default:
                 System.out.print("Gepelj szot: ");
                 toBeSent = keyInput.nextLine();
-
+                
+                //System.out.println("DEFAULTeleje msg: " + msg);
+                //System.out.println("NOKeleje lastGotWord: " + lastGotWord);
+                
                 while (!toBeSent.matches("[a-z]+")) {
                     System.out.print("Gepelj helyes szot: ");
                     toBeSent = keyInput.nextLine();
@@ -115,7 +125,9 @@ public class InteractiveClient {
                 }
                 
                 if (!"nok".equals(msg)) {
+                  //  System.out.println("DEFAULTvege msg: " + msg);
                     lastGotWord = msg;
+                   // System.out.println("DEFAULTvege lastGotWord: " + lastGotWord);
                 }
                 output.println(toBeSent);
 
