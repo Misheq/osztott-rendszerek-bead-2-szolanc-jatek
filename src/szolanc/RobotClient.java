@@ -21,6 +21,7 @@ public class RobotClient {
     Scanner fromServer;
     List<String> wordList;
     String name;
+    String lastGotWord;
 
     RobotClient(String name, String file) throws IOException {
         this.name = name;
@@ -29,6 +30,7 @@ public class RobotClient {
         output = new PrintWriter(client.getOutputStream(), true);
         fromServer = new Scanner(client.getInputStream());
         wordList = readFile(file);
+        lastGotWord = "";
 
         output.println(name);
 
@@ -62,7 +64,6 @@ public class RobotClient {
         boolean workStatus = true;
 
         String msg = fromServer.nextLine();
-        String lastGotWord = "";
         String toBeSent = "";
         String lastLetter = "";
 
@@ -84,7 +85,7 @@ public class RobotClient {
             case "nok":
                 toBeSent = "exit";
                 workStatus = false;
-                msg = lastGotWord; // ez itt a lenyeg, hogy a legutobbi szohoz viszonyitva keres megint masikat
+                msg = lastGotWord;
                 lastLetter = msg.substring(msg.length() - 1);
 
                 for (int i = 0; i < wordList.size(); ++i) {

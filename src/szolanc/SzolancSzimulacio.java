@@ -13,7 +13,7 @@ public class SzolancSzimulacio {
             public void run() {
                 try {
                     new Server();
-                } catch (NotBoundException ex) {
+                } catch (Exception ex) {
                     System.out.println("Hiba a szerver inditasnal");
                 }
             }
