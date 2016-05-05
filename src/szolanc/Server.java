@@ -32,31 +32,20 @@ public class Server {
         while (true) {
             try {
                 Socket s1 = server.accept();
-                System.out.println("elso csatlakozott");
                 Socket s2 = server.accept();
-                System.out.println("mind 2 csatlakozott");
                 Registry reg;
-                System.out.println("regisztert letrehozta");
                 TiltottSzerverInterface tszi;
-                System.out.println("interfacet megcsinalta");
 
                 try {
                     reg = LocateRegistry.getRegistry(12345);
-                    System.out.println("masik try tszi elott");
-                    //tszi = (TiltottSzerverInterface) Naming.lookup("rmi://localhost:12345/tiltott" + numb);
                     tszi = (TiltottSzerverInterface) reg.lookup("tiltott" + numb);
-                    System.out.println("masik try tszi utan");
                 } catch (Exception e) {
-                    System.out.println("masik catch tszi elott");
-                    numb = 1;   // ez a resz kicsit fura
+                    numb = 1;
                     reg = LocateRegistry.getRegistry(12345);
                     tszi = (TiltottSzerverInterface) reg.lookup("tiltott" + numb);
-                    //tszi = (TiltottSzerverInterface) Naming.lookup("rmi://localhost:12345/tiltott" + numb);
-                    System.out.println("masik catch tszi utan");
                 }
-                System.out.println("uj handler elott");
+
                 new Handler(s1, s2, tszi).start();
-                System.out.println("uj handler utan");
                 numb++;
             } catch (IOException e) {
                 System.out.println("SERVER>> Hiba kliensekkel");
