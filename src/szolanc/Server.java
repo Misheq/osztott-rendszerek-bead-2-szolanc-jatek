@@ -3,14 +3,19 @@ package szolanc;
 import java.util.*;
 import java.net.*;
 import java.io.*;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.text.*;
 
 public class Server {
 
     final private int port = 32123;
     ServerSocket server;
+    int numb = 1;
 
-    public Server() {
+    public Server() throws NotBoundException {
         try {
             this.server = new ServerSocket(port);
             System.out.println("SERVER>> Szerver elindult a " + port + " port szamon");
@@ -21,12 +26,25 @@ public class Server {
         }
     }
 
-    final void handleClients() throws IOException {
+    final void handleClients() throws IOException, NotBoundException {
         while (true) {
+            try {
+                Socket s1 = server.accept();
+                Socket s2 = server.accept();
+                Registry reg = LocateRegistry.getRegistry();
+                TiltottSzerverInterface tszi;
+                try {
+                    tszi = (TiltottSzerverInterface) (reg.lookup("tiltott" + numb));
+                } catch (RemoteException e) {
+                    numb = 1;   // ez a resz kicsit fura
+                    tszi = (TiltottSzerverInterface) (reg.lookup("tiltott" + numb));
+                }
 
-            Socket s1 = server.accept();
-            Socket s2 = server.accept();
-            new Handler(s1, s2).start();
+                new Handler(s1, s2, tszi).start();
+                numb++;
+            } catch (IOException e) {
+                System.out.println("SERVER>> Hiba kliensekkel");
+            }
         }
     }
 
@@ -39,6 +57,7 @@ public class Server {
         boolean isPlayer1;
         File fileName;
         FileWriter fw;
+        TiltottSzerverInterface tszi;
 
         public final void createFileName(String player1, String player2) throws IOException {
             Date date = new Date();
@@ -57,9 +76,11 @@ public class Server {
             bw.flush();
         }
 
-        Handler(Socket s1, Socket s2) throws IOException {
+        Handler(Socket s1, Socket s2, TiltottSzerverInterface tszi) throws IOException {
             this.player1 = s1;
             this.player2 = s2;
+            this.tszi = tszi;
+            
             input1 = new Scanner(s1.getInputStream());
             input2 = new Scanner(s2.getInputStream());
 
@@ -84,9 +105,15 @@ public class Server {
             while (true) {
                 if (isPlayer1) {
                     try {
-                        msg = input1.nextLine();
+                        msg = input1.nextLine();//
+                        
+                        while(tszi.tiltottE(msg)) {
+                            output1.println("nok");
+                            msg = input1.nextLine();
+                        }
+                        output1.println("ok");
 
-                    } catch (NoSuchElementException ex) {
+                    } catch (Exception ex) {
                         System.out.println("SERVER>> " + name2 + " nyert");
                         output2.println("nyert");
                         break;
@@ -104,8 +131,14 @@ public class Server {
                 } else {
                     try {
                         msg = input2.nextLine();
+                        
+                        while(tszi.tiltottE(msg)) {
+                            output2.println("nok");
+                            msg = input2.nextLine();
+                        }
+                        output2.println("ok");
 
-                    } catch (NoSuchElementException ex) {
+                    } catch (Exception ex) {
                         System.out.println("SERVER>> " + name1 + " nyert");
                         output1.println("nyert");
                         break;
@@ -138,7 +171,7 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NotBoundException {
         new Server();
     }
 }

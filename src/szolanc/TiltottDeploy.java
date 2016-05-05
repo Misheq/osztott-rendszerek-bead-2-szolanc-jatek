@@ -12,8 +12,13 @@ public class TiltottDeploy {
     public TiltottDeploy(int n) throws RemoteException {
         for (int i = 1; i <= n; i++) {
             String forb_name = "tiltott" + i;
-            reg.rebind(forb_name, new TiltottSzerver(forb_name));
+            try {
+                reg.rebind(forb_name, new TiltottSzerver(forb_name));
+            } catch(RemoteException ex) {
+                System.out.println("Hiba keletkezett " + forb_name + "-nel");
+            }
             System.out.println(forb_name + " letrehozva");
+            
         }
     }
     
@@ -28,6 +33,7 @@ public class TiltottDeploy {
         new TiltottDeploy(n);
         } else {
             System.out.println("Parameter hiba kell 1 db min 1-es erteku parameter");
+            return;
         }
     }
     
