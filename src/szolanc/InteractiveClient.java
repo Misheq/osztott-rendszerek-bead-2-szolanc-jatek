@@ -13,7 +13,6 @@ public class InteractiveClient {
     PrintWriter output;
     Scanner fromServer;
     Scanner keyInput;
-    //ArrayList<String> wordList;
 
     InteractiveClient() throws IOException {
         client = new Socket("localhost", PORT);

@@ -3,6 +3,7 @@ package szolanc;
 import java.util.*;
 import java.net.*;
 import java.io.*;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -34,19 +35,23 @@ public class Server {
                 System.out.println("elso csatlakozott");
                 Socket s2 = server.accept();
                 System.out.println("mind 2 csatlakozott");
-                Registry reg = LocateRegistry.createRegistry(port);
+                Registry reg;
                 System.out.println("regisztert letrehozta");
                 TiltottSzerverInterface tszi;
                 System.out.println("interfacet megcsinalta");
 
                 try {
+                    reg = LocateRegistry.getRegistry("localhost");
                     System.out.println("masik try tszi elott");
-                    tszi = (TiltottSzerverInterface) (reg.lookup("tiltott" + numb));
+                    //tszi = (TiltottSzerverInterface) Naming.lookup("rmi://localhost:12345/tiltott" + numb);
+                    tszi = (TiltottSzerverInterface) reg.lookup("tiltott" + numb);
                     System.out.println("masik try tszi utan");
-                } catch (RemoteException e) {
+                } catch (Exception e) {
                     System.out.println("masik catch tszi elott");
                     numb = 1;   // ez a resz kicsit fura
-                    tszi = (TiltottSzerverInterface) (reg.lookup("tiltott" + numb));
+                    reg = LocateRegistry.getRegistry("localhost");
+                    tszi = (TiltottSzerverInterface) reg.lookup("tiltott" + numb);
+                    //tszi = (TiltottSzerverInterface) Naming.lookup("rmi://localhost:12345/tiltott" + numb);
                     System.out.println("masik catch tszi utan");
                 }
                 System.out.println("uj handler elott");
